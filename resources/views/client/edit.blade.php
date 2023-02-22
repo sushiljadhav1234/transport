@@ -370,7 +370,7 @@ $("#contactsubbutton").on('click', function() {
                                     $("#loading-wrapper").hide();
                                 },
                                 success: function(data) {
-                                   
+                                    console.log(data.success);
 
                                     if (data.success == "client added successfully.") {
                                         swal({

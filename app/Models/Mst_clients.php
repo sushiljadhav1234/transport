@@ -36,10 +36,5 @@ class Mst_clients extends Model
     {
         return $this->hasMany(mst_client_contact_details::class,'client_id',  'id');
     }
-    public function tbl()
-    {
-        return $this->belongsTo(TblJob::class,'client_id',  'id');
-    }
-
 
 }

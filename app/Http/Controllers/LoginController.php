@@ -25,23 +25,17 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         
-        $user = User::where('emailid', $request->email)->first();
-        if(!empty($user)){
-            
-            $encryptedpassword=$user->password;
+        $user = User::where('emailid', $request->email)->get();
+        $encryptedpassword=$user[0]->password;
        
-            $userpass=Crypt::decryptString( $encryptedpassword);     
+        $userpass=Crypt::decryptString( $encryptedpassword);     
        
-            if($userpass==$request->password){
-                $user= Auth::loginUsingId($user->id);
-                return redirect()->intended('dashboard')->withSuccess('Signed in');
-            }else{
-           
-                return redirect("login")->withErrors('Login details are not valid');
-            }
+        if($userpass==$request->password){
+           $user= Auth::loginUsingId($user[0]->id);
+           return redirect()->intended('dashboard')->withSuccess('Signed in');
         }else{
+           
             return redirect("login")->withErrors('Login details are not valid');
-
         }
        
     }

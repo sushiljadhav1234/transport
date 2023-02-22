@@ -144,7 +144,7 @@
 									</li>
 									
 									<li class="kalamenu">
-										<a  value="ManageWarehouses"  id="menuManageWarehouses" href="{{route('warehouse.index')}}">
+										<a  value="ManageWarehouses"  id="menuManageWarehouses" href="#">
 											<i class="icon-package"></i>
 											<span class="menu-text">Warehouses</span>
 										</a>
