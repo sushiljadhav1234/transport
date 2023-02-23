@@ -47,6 +47,10 @@ Route::get('/client-quote-List', [ClientController::class, 'client_quote_list'])
 Route::get('/add_quote_request', [ClientController::class, 'add_quote_request'])->name('client.add_quote_request');
 Route::post('/submit_quote_request', [ClientController::class, 'submit_quote_request'])->name('client.submit_quote_request');
 Route::post('/quote_calculate', [ClientController::class, 'quote_calculate'])->name('client.quote_calculate');
+Route::post('/quote_request_calc', [ClientController::class, 'quote_request_calc'])->name('client.quote_request_calc');
+Route::post('/setaddressquote', [ClientController::class, 'setaddressquote'])->name('client.setaddressquote');
+Route::post('/getclientdata', [ClientController::class, 'getclientdata'])->name('client.getclientdata');
+Route::post('/calculate_request_checkclient_check', [ClientController::class, 'calculate_request_checkclient_check'])->name('client.calculate_request_checkclient_check');
 //end my work
 
 Route::get('/jobstag', [JobsTagController::class, 'index'])->name('jobstag.index');
