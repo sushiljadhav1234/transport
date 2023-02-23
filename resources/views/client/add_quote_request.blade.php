@@ -489,12 +489,12 @@
                     }
                 });
                 $("#warehuseAddressdelivery").change(function() {
-                    var dataString = 'id=' + $("#warehuseAddressdelivery").val();
                     $.ajax({
-                        type: "POST",
-                        url: "get/setaddressquote.php",
-                        data: dataString,
-                        dataType: 'json',
+                        type: "post",
+                        url: "{{ route('client.setaddressquote') }}",
+                        data: {
+                            'id': $("#warehuseAddressdelivery").val()
+                        },
                         async: true,
                         cache: false,
                         beforeSend: function() {
@@ -505,7 +505,6 @@
                         },
                         success: function(data) {
                             if (data.exists == '1') {
-
                                 $("#delivery_street").val(data.warehouse_street);
                                 $("#delivery_city").val(data.warehouse_city);
                                 $("#delivery_state").val(data.warehouse_state);
@@ -522,12 +521,12 @@
                 });
 
                 $("#warehuseAddresspickup").change(function() {
-                    var dataString = 'id=' + $("#warehuseAddresspickup").val();
                     $.ajax({
                         type: "POST",
-                        url: "get/setaddressquote.php",
-                        data: dataString,
-                        dataType: 'json',
+                        url: "{{ route('client.setaddressquote') }}",
+                        data: {
+                            'id': $("#warehuseAddresspickup").val()
+                        },
                         async: true,
                         cache: false,
                         beforeSend: function() {
@@ -628,6 +627,7 @@
                         /\d/.test(value) // has a digit
                 });
 
+
                 function findal_calculate_submit1(id) {
                     var form_data = new FormData();
                     form_data.append('id', id);
@@ -668,20 +668,15 @@
 
                 function calculatelastrequest() {
                     var createdid = $("#createdid").val();
-
-
-                    //	alert(createdid);
-                    var form_data = new FormData();
-                    form_data.append('id', createdid);
+                    let formData = new FormData($("#myform")[0]);
+                    formData.append('id', createdid);
                     $.ajax({
                         type: "POST",
-                        url: "set/calculate_request_checkclient_check.php",
-                        dataType: 'text', // what to expect back from the PHP script, if anything
+                        url: "{{ route('client.calculate_request_checkclient_check') }}",
                         cache: false,
                         contentType: false,
                         processData: false,
-                        data: form_data,
-                        type: 'post',
+                        data: formData,
                         beforeSend: function() {
                             $("#loading-wrapper").show();
                         },
@@ -807,8 +802,6 @@
                                                     }
                                                 });
                                         }
-
-
                                     },
                                     error: function(error) {
                                         swal("Error", error, "error");
@@ -879,11 +872,13 @@
 
 
                 function findal_calculate_submit() {
+                    let formData = new FormData($("#myform")[0]);
                     $.ajax({
                         type: "POST",
-                        url: "set/add_quote_request_calc.php",
-                        data: $("#myform").serialize(),
-                        cache: false,
+                        url: "{{ route('client.quote_request_calc') }}",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         beforeSend: function() {
                             $("#loading-wrapper").show();
                         },
@@ -891,8 +886,8 @@
                             $("#loading-wrapper").fadeOut(2000);
                         },
                         success: function(data) {
-                            if (isNaN(data)) {
-                                swal("Error ", data, "error");
+                            if (data.success == 'error') {
+                                swal("Error ", data.success, "error");
                             } else {
                                 swal({
                                     title: "Success",
@@ -900,7 +895,7 @@
                                     showCancelButton: false,
                                     showConfirmButton: false
                                 });
-                                window.location.href = "update_job.php?id=" + btoa(data);
+                                window.location.href = "update_job.php?id=" + btoa(data.last_insert_id);
                             }
 
                         },
@@ -912,12 +907,12 @@
 
                 $("#clientid").change(function() {
                     var clientid = $("#clientid").val();
-                    var dataString = "clientid=" + clientid;
                     $.ajax({
                         type: "POST",
-                        url: "get/getclientdata.php",
-                        data: dataString,
-                        dataType: 'json',
+                        url: "{{ route('client.getclientdata') }}",
+                        data: {
+                            'clientid': clientid
+                        },
                         cache: false,
                         beforeSend: function() {
                             $("#loading-wrapper").show();
